@@ -1,0 +1,289 @@
+personaje p1;
+personaje p2;
+pantallas pa;
+int pantalla = 0;
+
+void setup(){
+  size(800,600);
+  p1 = new personaje(10,100,100,300);
+  p2 = new personaje(10,100,600,300);
+  pa = new pantallas();
+}
+
+void draw(){
+  switch(pantalla){
+    case 0:
+    pa.inicio();
+    break;
+    
+    case 1:
+    pa.instruccion();
+    break;
+    
+    case 2:
+    pa.seleccion();
+    break;
+    
+    case 3:
+    pa.pelea();
+    break;
+    
+    case 4:
+    pa.fin();
+    break;
+  }
+}
+
+class pantallas{
+  
+  int turno = 1;
+  int Per1;
+  int Per2;
+  boolean J1;
+  boolean J2;
+  
+  pantallas(){
+  }
+  
+  void inicio(){
+    background(0);
+    fill(#00F727);
+    textSize(50);
+    textAlign(CENTER);
+    text("La guerra de la taquiza",400,200);
+    textAlign(LEFT);
+    textSize(20);
+    text("En la ciudad hay cinco puestos/restaurantes que luchan por ser los\nmejores de aquí.\n\nPara eso, enviarán a sus mejores guerreros.",100,300);
+    textSize(15);
+    text("Apachúrrale al Enter",100,500);
+    if(key == ENTER){ 
+      pantalla = 1;
+    }
+  }
+  
+  void instruccion(){
+    background(0);
+    fill(#CE0000);
+    textSize(35);
+    text("Selecciona un personaje\ncon las teclas\nque se indican.",100,100);
+    textSize(15);
+    text("apachúrrale al Espacio",100,500);
+    if(key == ' '){
+      pantalla = 2;
+    }
+  }
+  
+  void seleccion(){
+    background(#4D4D4D);
+    fill(255);
+    textSize(30);
+    text("Jugador 1",150,150);
+    text("Jugador 2",450,150);
+    textSize(15);
+    
+    //Jugador 1
+    text("El Pastor Aleman: Q",150,250);
+    text("Burrito Sabanero: W",150,300);
+    text("Brasita Taquinda: E",150,350);
+    text("María Guisado: R",150,400);
+    text("El Clásico: T",150,450);
+    
+    //Jugador 2
+    text("El Pastor Aleman: Z",450,250);
+    text("Burrito Sabanero: X",450,300);
+    text("Brasita Taquinda: C",450,350);
+    text("María Guisado: V",450,400);
+    text("El Clásico: B",450,450);
+    
+    if(keyPressed){
+    switch(key){
+    case 'q':
+    J1 = true;
+    Per1=0;
+    break;
+    
+    case 'w':
+    J1 = true;
+    Per1=1;
+    break;
+    
+    case 'e':
+    J1 = true;
+    Per1=2;
+    break;
+    
+    case 'r':
+    J1 = true;
+    Per1=3;
+    break;
+    
+    case 't':
+    J1 = true;
+    Per1=4;
+    break;
+    }
+    
+    //Jugador 2
+    switch(key){
+    case 'z':
+    J2 = true;
+    Per2=0;
+    break;
+    
+    case 'x':
+    J2 = true;
+    Per2=1;
+    break;
+    
+    case 'c':
+    J2 = true;
+    Per2=2;
+    break;
+    
+    case 'v':
+    J2 = true;
+    Per2=3;
+    break;
+    
+    case 'b':
+    J2 = true;
+    Per2=4;
+    break;
+    }
+    }
+  
+    if(J1 && J2){ 
+      pantalla = 3;
+    }
+    
+  }
+  
+  void pelea(){
+    background(#8E8E8E);
+    fill(255);
+    textSize(20);
+    text("Vida", 100,450);
+    fill(255);
+    textSize(20);
+    text("Vida", 500,450);
+    fill(0);
+    textSize(25);
+    text(p1.vida,150,450);
+    text(p2.vida,550,450);
+    textSize(15);
+    text("J1: ¡DALE CON LA SILLA \n(Presiona A para pelear)!",90,90);
+    text("J2: ¿NO TE DEJES, DALE \nCON LA CHANCLA! (presiona \nL para pelear)",500,70);
+    
+    switch(Per1){
+    case 0:
+    p1.Pastor();
+    break;
+    
+    case 1:
+    p1.Burrito();
+    break;
+    
+    case 2:
+    p1.Brasita();
+    break;
+    
+    case 3:
+    p1.Maria();
+    break;
+    
+    case 4:
+    p1.Clasico();
+    break;
+  }
+    
+    switch(Per2){
+    case 0:
+    p2.Pastor();
+    break;
+    
+    case 1:
+    p2.Burrito();
+    break;
+    
+    case 2:
+    p2.Brasita();
+    break;
+    
+    case 3:
+    p2.Maria();
+    break;
+    
+    case 4:
+    p2.Clasico();
+    break;
+  }
+  
+  if(turno==1){
+    fill(#FEFF00);
+    text("Ataca",90,150);
+      if (keyPressed){
+        if (key == 'a'){
+          p2.vida= p2.vida - p1.ataque; 
+          turno = 2;
+        }
+      }
+    }
+    
+    if (turno==2){
+     fill(#FEFF00);
+     text("Ataca.",500,150);
+      if (keyPressed){
+        if(key == 'l'){
+          p1.vida= p1.vida - p2.ataque;
+          turno = 1;
+        }
+      }
+    }
+    
+  if(p1.vida == 0 || p2.vida == 0){
+    pantalla = 4;
+  }
+  }
+  
+  void fin(){
+  background(0);
+  textSize(10);  
+  fill(#BCA700);
+  text("Pulsa H para reiniciar",500,150);
+  text("Pulsa J para pelear de nuevo",500,175);
+  text("Pulsa P para salir",500,200);
+  textSize(125);
+  fill(#FEFF00,random(75,50));
+  text("GAME OVER", 30,500);
+  textSize(50);
+  fill(#FEFF00);
+  if(p1.vida > 0){
+    text("Jugador 1... \nGANA",200,100);
+  }else if(p2.vida > 0){
+    text("Jugador 2... \nGANA",200,100);
+  }
+
+  if(key == 'h' || key == 'H'){
+    pantalla = 0;
+    turno = 1;
+    p1.vida = 100;
+    p2.vida = 100;
+    J1 = false;
+    J2 = false;
+    
+  }
+  if(key == 'j' || key == 'J'){
+    pantalla = 3;
+    turno = 1;
+    p1.vida = 100;
+    p2.vida = 100;
+    J1 = false;
+    J2 = false;
+  }
+  
+  if(key == 'p'){
+    exit();
+  }
+  }
+  
+}
